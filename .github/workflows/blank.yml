@@ -1,0 +1,45 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  transfer-image:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write  # 确保有写入GHCR的权限
+      contents: read
+
+    steps:
+      # 登录到GitHub Container Registry
+      - name: Log in to GHCR
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}  # 使用触发者用户名
+          password: ${{ secrets.GITHUB_TOKEN }}  # 使用自动生成的令牌
+
+      # 从Docker Hub拉取镜像
+      - name: Pull image from Docker Hub
+        run: docker pull docker.io/wenbowen123/foundationpose:latest
+        # 示例：docker pull nginx:latest
+
+      # 给镜像打上GHCR的标签
+      - name: Tag image for GHCR
+        run: docker tag docker.io/wenbowen123/foundationpose:latest ghcr.io/teddywesside1/foundationpose_python:latest
+        # 示例：docker tag nginx:latest ghcr.io/johndoe/nginx:latest
+
+      # 推送镜像到GHCR
+      - name: Push image to GHCR
+        run: docker push ghcr.io/teddywesside1/foundationpose_python:latest
