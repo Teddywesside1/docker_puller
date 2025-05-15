@@ -32,14 +32,14 @@ jobs:
 
       # 从Docker Hub拉取镜像
       - name: Pull image from Docker Hub
-        run: docker pull openexplorer/ai_toolchain_ubuntu_20_x5_gpu:v1.2.8
+        run: docker pull openexplorer/ai_toolchain_ubuntu_20_x5_cpu:v1.2.6
         # 示例：docker pull nginx:latest
 
       # 给镜像打上GHCR的标签
       - name: Tag image for GHCR
-        run: docker tag openexplorer/ai_toolchain_ubuntu_20_x5_gpu:v1.2.8 ghcr.io/teddywesside1/ai_toolchain_ubuntu_20_x5_gpu:v1.2.8
+        run: docker tag openexplorer/ai_toolchain_ubuntu_20_x5_cpu:v1.2.6 ghcr.io/teddywesside1/ai_toolchain_ubuntu_20_x5_cpu:v1.2.6
         # 示例：docker tag nginx:latest ghcr.io/johndoe/nginx:latest
 
       # 推送镜像到GHCR
       - name: Push image to GHCR
-        run: docker push ghcr.io/teddywesside1/ai_toolchain_ubuntu_20_x5_gpu:v1.2.8
+        run: docker push ghcr.io/teddywesside1/ai_toolchain_ubuntu_20_x5_cpu:v1.2.6
